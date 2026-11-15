@@ -1,41 +1,126 @@
-# [miniAlert jQuery plugin](http://minijs.com/plugins/10/alert) [![Build Status](https://secure.travis-ci.org/miniJs/miniAlert.png?branch=master)](http://travis-ci.org/matthieua/miniAlert)
+# miniAlert
 
+[![CI](https://github.com/fxding/miniAlert/actions/workflows/ci.yml/badge.svg)](https://github.com/fxding/miniAlert/actions/workflows/ci.yml)
 
-miniAlert allows visitors to display and hide quick notification messages with a simple click.
+A lightweight, dependency-free JavaScript alert notification plugin. Add dismissible alert messages to your page with smooth animations, accessibility support, and zero dependencies.
 
-## Verion
+## Version
 
-v1.0 stable
+v2.0.0
 
-## Website Url
+## Features
 
-http://minijs.com/plugins/10/alert
+- **Zero dependencies** — no jQuery, pure vanilla JS (~4 KB minified)
+- **Accessible** — `role="alert"`, `aria-label`, keyboard-focusable close button
+- **Smooth animations** — CSS transitions for `fade`, `slide`, and `basic` effects
+- **Easing support** — configurable `easing` option (e.g. `ease-in`, `ease-out`, `cubic-bezier(...)`)
+- **Auto-dismiss** — set `autoDismiss: true` with a `timeout` to auto-close
+- **Public API** — `hide()`, `show()`, `destroy()`, `getState()`
+- **Dynamic creation** — `MiniAlert.show({ title, message, ... })` creates alerts on the fly
+- **CSS variables** — customizable via `--mini-alert-*` custom properties
+- **Semantic modifier classes** — `mini-alert--info`, `--warning`, `--error`, `--success`
+- **Event cleanup** — listeners are properly removed to prevent memory leaks
+- **UMD + ESM builds** — works via `<script>`, CommonJS, or ES module import
 
-## Bug tracker
+## Installation
 
-If you find a bug, please raise it the [issue here](https://github.com/miniJs/miniAlert/issues) on Github! 
+```bash
+npm install mini-alert
+```
 
-## Update instructions
+Or include directly:
 
-[MiniBoilerplate](http://miniboilerplate.com/) is used to create and maintain the plugin. Follow the instructions on the [website](http://miniboilerplate.com/) if you want to contribute or apply your own changes.
+```html
+<link rel="stylesheet" href="css/miniAlert.css">
+<script src="dist/miniAlert.umd.js"></script>
+```
 
-## TODO
+## Usage
 
-- Add 'easing' option
+```html
+<div class="mini-alert mini-alert--info">
+  <h2>Information</h2>
+  <p>Read this before dismissing.</p>
+</div>
 
-## Developer
+<script>
+  // Initialize on existing elements
+  MiniAlert.create('.mini-alert');
 
-Developed by Matthieu Aussaguel, [mynameismatthieu.com](http://mynameismatthieu.com)
+  // With options
+  MiniAlert.create('#my-alert', {
+    text: 'close',
+    position: 'after',
+    effect: 'fade',
+    duration: 300,
+    easing: 'ease-in-out',
+    autoDismiss: true,
+    timeout: 5000,
+    onLoad: function (element, button) { /* ... */ },
+    onHide: function (element, button) { /* ... */ },
+    onHidden: function () { /* ... */ }
+  });
 
-+ [@mattaussaguel](http://twitter.com/mattaussaguel)
-+ [Github Profile](http://github.com/matthieua)
+  // Dynamic creation
+  MiniAlert.show({
+    title: 'Saved!',
+    message: 'Your changes have been saved.',
+    container: '#main',
+    effect: 'slide',
+    autoDismiss: true,
+    timeout: 3000
+  });
+</script>
+```
 
-## Licence
+## Options
 
-Copyright &copy; 2012 Matthieu Aussaguel
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `text` | `string` | `'×'` | Close button text |
+| `cssClass` | `string` | `'close'` | Close button CSS class |
+| `position` | `'before' \| 'after'` | `'before'` | Button position relative to content |
+| `effect` | `'basic' \| 'fade' \| 'slide'` | `'basic'` | Hide animation effect |
+| `duration` | `number` | `200` | Animation duration in ms |
+| `easing` | `string` | `'ease'` | CSS transition timing function |
+| `autoDismiss` | `boolean` | `false` | Auto-close after timeout |
+| `timeout` | `number` | `0` | Auto-dismiss delay in ms |
+| `ariaLabel` | `string` | `'Close'` | aria-label for close button |
+| `onLoad` | `function` | `noop` | Called after button is added |
+| `onHide` | `function` | `noop` | Called when hide begins |
+| `onHidden` | `function` | `noop` | Called after element is removed |
 
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+## API
 
-The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+- `MiniAlert.create(element, options)` — Initialize on an element (or selector). Returns instance. Prevents double-init.
+- `MiniAlert.show(options)` — Dynamically create and show an alert. Returns instance.
+- `instance.hide()` — Hide the alert with animation.
+- `instance.show()` — Restore a previously hidden alert.
+- `instance.destroy()` — Remove button, clean up listeners, remove instance reference.
+- `instance.getState()` — Returns current state: `'loaded'`, `'hiding'`, `'hidden'`.
 
-THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+## CSS Customization
+
+```css
+.mini-alert {
+  --mini-alert-radius: 12px;
+  --mini-alert-padding: 10px 24px;
+  --mini-alert-margin: 16px 0;
+}
+```
+
+## Development
+
+```bash
+npm install
+npm test          # run tests (Vitest + jsdom)
+npm run build     # build UMD + ESM + minified
+```
+
+## Bug Tracker
+
+[Issues on GitHub](https://github.com/fxding/miniAlert/issues)
+
+## License
+
+MIT

@@ -1,78 +1,104 @@
 <!doctype html>
-
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>miniAlert - jQuery Plugin</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>miniAlert - Lightweight Alert Plugin</title>
+  <link rel="stylesheet" href="css/miniAlert.css">
   <link rel="stylesheet" href="css/site.css">
-  <!--[if IE]>
-    <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-  <![endif]-->
 </head>
-
 <body>
-
   <div id="container">
     <header>
-      <h1>
-        <strong>miniAlert demo</strong> - jQuery Plugin
-      </h1>
+      <h1><strong>miniAlert demo</strong> — v2.0</h1>
     </header>
 
     <div id="main">
-      <div id="alert-1" class="mini-alert">
+      <div id="alert-1" class="mini-alert mini-alert--info">
         <h2>Hey, make sure to read this message before hiding it</h2>
-        <p>
-          Vestibulum id ligula porta felis euismod semper. Nulla vitae elit libero, a pharetra augue. Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Donec id elit non mi porta gravida at eget metus. Vestibulum id ligula porta felis euismod semper.
-        </p>
+        <p>Vestibulum id ligula porta felis euismod semper. Nulla vitae elit libero, a pharetra augue.</p>
       </div>
 
-      <div id="alert-2" class="mini-alert">
-        <h2>Hey, make sure to read this message before hiding it</h2>
-        <p>
-          Vestibulum id ligula porta felis euismod semper. Nulla vitae elit libero, a pharetra augue. Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Donec id elit non mi porta gravida at eget metus. Vestibulum id ligula porta felis euismod semper.
-        </p>
+      <div id="alert-2" class="mini-alert mini-alert--warning">
+        <h2>Warning: fade effect with custom close text</h2>
+        <p>Donec id elit non mi porta gravida at eget metus. Vestibulum id ligula porta felis euismod semper.</p>
       </div>
 
-      <div id="alert-3" class="mini-alert">
-        <h2>Hey, make sure to read this message before hiding it</h2>
-        <p>
-          Vestibulum id ligula porta felis euismod semper. Nulla vitae elit libero, a pharetra augue. Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Donec id elit non mi porta gravida at eget metus. Vestibulum id ligula porta felis euismod semper.
-        </p>
+      <div id="alert-3" class="mini-alert mini-alert--error">
+        <h2>Error: slide effect with callback</h2>
+        <p>Integer posuere erat a ante venenatis dapibus posuere velit aliquet.</p>
+      </div>
+
+      <div id="alert-4" class="mini-alert mini-alert--success">
+        <h2>Auto-dismiss in 5 seconds</h2>
+        <p>This alert will disappear automatically — no click needed.</p>
+      </div>
+
+      <div>
+        <button id="show-alert" type="button" style="
+          padding: 8px 16px;
+          border-radius: 6px;
+          border: 1px solid #4085ae;
+          background: #daedf8;
+          color: #4085ae;
+          cursor: pointer;
+        ">Show Dynamic Alert</button>
       </div>
     </div>
 
     <footer>
-      brought to you by <a href="http://minijs.com" target="_blank">minijs.com</a>
+      brought to you by <a href="https://github.com/fxding/miniAlert" target="_blank">miniAlert</a>
     </footer>
   </div>
 
-  <script src="js/libs/jquery.min.js"></script>
-  <script src="js/miniAlert.js"></script>
+  <script src="dist/miniAlert.umd.js"></script>
   <script>
-  $(function() {
-    // Default options
-    $('#alert-1').miniAlert();
+    (function () {
+      // Default options
+      MiniAlert.create('#alert-1');
 
-    // Custom options
-    $('#alert-2').miniAlert({
+      // Custom options: fade effect, custom text, appended after content
+      MiniAlert.create('#alert-2', {
         text: 'close',
         position: 'after',
         effect: 'fade',
-        duration: 300
-    });
+        duration: 300,
+        easing: 'ease-in'
+      });
 
-    // Custom callback functions
-    $('#alert-3').miniAlert({
-      effect: 'slide',
-      duration: 1000,
-      onHide: function(element, button) {
-        element.find('h2, p').animate({opacity: 0}, 500);
-        button.animate({opacity: 0}, 100);
-      }
-    });
-  });
+      // Slide effect with onHide callback
+      MiniAlert.create('#alert-3', {
+        effect: 'slide',
+        duration: 400,
+        easing: 'ease-out',
+        onHide: function (element, button) {
+          console.log('Alert is hiding:', element.id);
+        }
+      });
+
+      // Auto-dismiss after 5 seconds
+      MiniAlert.create('#alert-4', {
+        autoDismiss: true,
+        timeout: 5000,
+        effect: 'fade',
+        duration: 400
+      });
+
+      // Dynamically create an alert via MiniAlert.show()
+      document.getElementById('show-alert').addEventListener('click', function () {
+        MiniAlert.show({
+          title: 'Dynamic Alert',
+          message: 'This was created on the fly with MiniAlert.show().',
+          cssClass: 'close',
+          position: 'before',
+          effect: 'slide',
+          duration: 300,
+          autoDismiss: true,
+          timeout: 3000,
+          container: '#main'
+        });
+      });
+    })();
   </script>
-
 </body>
 </html>
