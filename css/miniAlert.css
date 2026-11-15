@@ -1,0 +1,63 @@
+.mini-alert {
+  --mini-alert-radius: 8px;
+  --mini-alert-padding: 5px 20px;
+  --mini-alert-margin: 20px 0;
+
+  padding: var(--mini-alert-padding);
+  border-radius: var(--mini-alert-radius);
+  margin: var(--mini-alert-margin);
+  box-sizing: border-box;
+}
+
+.mini-alert .close {
+  float: right;
+  background: transparent;
+  cursor: pointer;
+  border: 0;
+  color: #808080;
+  font-size: 14px;
+  position: relative;
+  padding: 0;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.mini-alert .close:hover,
+.mini-alert .close:focus {
+  color: #1a1a1a;
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
+
+.mini-alert--info {
+  --mini-alert-bg: #daedf8;
+  --mini-alert-color: #4085ae;
+  --mini-alert-border: #4085ae;
+}
+
+.mini-alert--warning {
+  --mini-alert-bg: #fcf9e2;
+  --mini-alert-color: #be9a59;
+  --mini-alert-border: #be9a59;
+}
+
+.mini-alert--error {
+  --mini-alert-bg: #f1dede;
+  --mini-alert-color: #cd5445;
+  --mini-alert-border: #cd5445;
+}
+
+.mini-alert--success {
+  --mini-alert-bg: #e2f5e9;
+  --mini-alert-color: #3a8a52;
+  --mini-alert-border: #3a8a52;
+}
+
+.mini-alert.mini-alert--info,
+.mini-alert.mini-alert--warning,
+.mini-alert.mini-alert--error,
+.mini-alert.mini-alert--success {
+  background-color: var(--mini-alert-bg);
+  color: var(--mini-alert-color);
+  border: 1px solid var(--mini-alert-border);
+}
